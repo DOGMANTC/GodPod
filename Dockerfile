@@ -174,6 +174,19 @@ RUN git checkout ${KOHYA_VERSION} && \
     pip3 cache purge && \
     deactivate
 
+#Install Lama cleaner
+RUN git clone github.com/Sanster/lama-cleaner.git /lama_cleaner
+WORKDIR /lama_cleaner
+RUN git checkout ${KOHYA_VERSION} && \
+    python3 -m venv --system-site-packages venv && \
+    source venv/bin/activate && \
+    pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 && \
+    pip3 install --no-cache-dir xformers==0.0.21 \
+    pip3 install -r requirements.txt && \
+    pip3 install . && \
+    pip3 cache purge && \
+    deactivate
+
 # Install ComfyUI
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git /ComfyUI
 WORKDIR /ComfyUI
